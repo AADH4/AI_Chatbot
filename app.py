@@ -12,10 +12,10 @@ genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 model = genai.GenerativeModel('gemini-1.5-pro')
 
 # Set up Streamlit page
-st.set_page_config(page_title="AI Chatbot", page_icon="🤖", layout="wide")
+st.set_page_config(page_title="AI Chatbot", page_icon="🧠", layout="wide")
 
 # Add title
-st.title("🤖 AI Chatbot")
+st.title("🧠 AI Chatbot")
 
 # Store conversation in session state
 if 'messages' not in st.session_state:
@@ -28,9 +28,9 @@ chat_placeholder = st.empty()
 with chat_placeholder.container():
     for msg in st.session_state.messages:
         if msg["role"] == "user":
-            st.markdown(f"<div style='text-align: left; color: #478df5;'>**You**: {msg['content']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='text-align: left; color: #478df5; font-weight: bold;'>You: {msg['content']}</div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<div style='text-align: left; color: #099bab;'>**Chatbot**: {msg['content']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='text-align: left; color: #0ab4c7; font-weight: bold;'>Chatbot: {msg['content']}</div>", unsafe_allow_html=True)
 
 # User input
 question = st.text_input("Type your query:", key="input_field")
