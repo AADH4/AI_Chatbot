@@ -30,7 +30,7 @@ if question:
         time.sleep(2)
     response = model.generate_content(question)
     bot_response = response.text
-    st.session_state.messages.append({"role": "chatbot", "content": bot_response}
+    st.session_state.messages.append({"role": "chatbot", "content": bot_response})
     # Display the updated conversation
     st.experimental_rerun()
 st.markdown("""
