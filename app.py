@@ -28,9 +28,9 @@ chat_placeholder = st.empty()
 with chat_placeholder.container():
     for msg in st.session_state.messages:
         if msg["role"] == "user":
-            st.markdown(f"<div style='text-align: left; color: #0D6EFD;'>**You**: {msg['content']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='text-align: left; color: #478df5;'>**You**: {msg['content']}</div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<div style='text-align: left; color: #28a745;'>**Chatbot**: {msg['content']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='text-align: left; color: #099bab;'>**Chatbot**: {msg['content']}</div>", unsafe_allow_html=True)
 
 # User input
 question = st.text_input("Type your query:", key="input_field")
@@ -42,7 +42,7 @@ if question:
     
     # Show typing animation while fetching the response
     with st.spinner("Chatbot is thinking..."):
-        time.sleep(2)  # Simulate thinking process
+        time.sleep(1)  # Simulate thinking process
     
     # Get chatbot response
     response = model.generate_content(question)
@@ -64,14 +64,14 @@ if question:
 st.markdown("""
     <style>
         .stTextInput input {
-            border: 2px solid #00A0D6;
-            border-radius: 20px;
+            border: 2px dashed #0092d6;
+            border-radius: 18px;
             padding: 10px;
-            font-size: 16px;
+            font-size: 18px;
         }
         .stTextInput input:focus {
             outline: none;
-            border: 2px solid #0098A6;
+            border: 2px dotted #10b7c7;
         }
     </style>
 """, unsafe_allow_html=True)
