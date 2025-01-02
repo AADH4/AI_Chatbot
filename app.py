@@ -4,7 +4,7 @@ import google.generativeai as genai
 genai.configure(api_key='AIzaSyC6X6ttls6_Utpl4SgGtE4XvkbF7CafWDc')
 model = genai.GenerativeModel('gemini-1.5-pro')
 
-st.title("Gemini AI Chatbot")
+st.title("AI Chatbot")
 question = st.text_input("Type your query:")
 
 if question:
