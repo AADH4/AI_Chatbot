@@ -1,12 +1,12 @@
 import streamlit as st
 import google.generativeai as genai
-
-genai.configure(api_key='AIzaSyC6X6ttls6_Utpl4SgGtE4XvkbF7CafWDc')
+from dotenv import load_dotenv
+import os
+load_dotenv()
+genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 model = genai.GenerativeModel('gemini-1.5-pro')
-
 st.title("AI Chatbot")
 question = st.text_input("Type your query:")
-
 if question:
     response = model.generate_content(question)
     markdown_response = f"Chatbot → {response.text}"
