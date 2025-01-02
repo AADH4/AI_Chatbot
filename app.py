@@ -13,37 +13,65 @@ model = genai.GenerativeModel('gemini-1.5-pro')
 
 # Set up Streamlit page
 st.set_page_config(page_title="AI Chatbot", page_icon="🤖", layout="wide")
+
+# Add title
 st.title("🤖 AI Chatbot")
+
 # Store conversation in session state
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
-for msg in st.session_state.messages:
-    if msg["role"] == "user":
-        st.markdown(f"<div style='text-align: left; color: #0D6EFD;'>**You**: {msg['content']}</div>", unsafe_allow_html=True)
-    else:
-        st.markdown(f"<div style='text-align: left; color: #28a745;'>**Chatbot**: {msg['content']}</div>", unsafe_allow_html=True)
+# Placeholder for dynamic chat display
+chat_placeholder = st.empty()
+
+# Display conversation history dynamically
+with chat_placeholder.container():
+    for msg in st.session_state.messages:
+        if msg["role"] == "user":
+            st.markdown(f"<div style='text-align: left; color: #0D6EFD;'>**You**: {msg['content']}</div>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"<div style='text-align: left; color: #28a745;'>**Chatbot**: {msg['content']}</div>", unsafe_allow_html=True)
+
+# User input
 question = st.text_input("Type your query:", key="input_field")
+
+# When the user submits a query
 if question:
+    # Append user query to session state
     st.session_state.messages.append({"role": "user", "content": question})
+    
+    # Show typing animation while fetching the response
     with st.spinner("Chatbot is thinking..."):
-        time.sleep(2)
+        time.sleep(2)  # Simulate thinking process
+    
+    # Get chatbot response
     response = model.generate_content(question)
     bot_response = response.text
+    
+    # Append chatbot response to session state
     st.session_state.messages.append({"role": "chatbot", "content": bot_response})
-    # Display the updated conversation
-    st.experimental_rerun()
+    
+    # Update the chat with new messages
+    chat_placeholder.empty()  # Clear the placeholder
+    with chat_placeholder.container():  # Re-render the conversation
+        for msg in st.session_state.messages:
+            if msg["role"] == "user":
+                st.markdown(f"<div style='text-align: left; color: #0D6EFD;'>**You**: {msg['content']}</div>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<div style='text-align: left; color: #28a745;'>**Chatbot**: {msg['content']}</div>", unsafe_allow_html=True)
+
+# CSS for custom message bubbles
 st.markdown("""
     <style>
         .stTextInput input {
             border: 2px solid #00A0D6;
             border-radius: 20px;
-            padding: 11px;
-            font-size: 22px;
+            padding: 10px;
+            font-size: 16px;
         }
         .stTextInput input:focus {
             outline: none;
-            border: 3px solid #0098A6;
+            border: 2px solid #0098A6;
         }
     </style>
 """, unsafe_allow_html=True)
