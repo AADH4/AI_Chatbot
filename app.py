@@ -37,9 +37,9 @@ def display_messages():
     """Display the conversation with proper formatting."""
     for msg in st.session_state.messages:
         if msg["role"] == "user":
-            st.markdown(f"<div style='text-align: left; color: #0D6EFD;'>**You**: {markdown.markdown(msg['content'])}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='text-align: left; color: #0D6EFD;'>You/User: {markdown.markdown(msg['content'])}</div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<div style='text-align: left; color: #28a745;'>**Chatbot**: {markdown.markdown(msg['content'])}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='text-align: left; color: #28a745;'>AI Chatbot: {markdown.markdown(msg['content'])}</div>", unsafe_allow_html=True)
 
 
 # Chat display
