@@ -25,10 +25,12 @@ if 'input_history' not in st.session_state:
 # Function to simulate typing effect for the bot response
 def typing_effect(text, delay=0.05):
     """Simulate a typing effect with the given delay per character."""
-    for i in range(len(text) + 1):
-        st.session_state.messages[-1]["content"] = text[:i]
-        display_messages()
-        time.sleep(delay)
+    full_text = ""  # Start with an empty string for the bot's message
+    for i in range(len(text)):
+        full_text += text[i]  # Append one character at a time
+        st.session_state.messages[-1]["content"] = full_text  # Update the current bot message
+        display_messages()  # Re-render the messages
+        time.sleep(delay)  # Wait before adding the next character
 
 def generate_response(prompt, history):
     # Construct the full prompt with history
@@ -42,7 +44,7 @@ def generate_response(prompt, history):
 
 def display_messages():
     """Display messages with appropriate style and formatting."""
-    chat = st.empty()
+    chat = st.empty()  # Create an empty placeholder for the chat display
     for msg in st.session_state.messages:
         if msg["role"] == "user":
             chat.markdown(f"<div style='text-align: left; color: #0D6EFD; font-size: 16px;'><b>You</b>: {markdown.markdown(msg['content'])}</div>", unsafe_allow_html=True)
@@ -52,9 +54,6 @@ def display_messages():
 # Add smooth scrolling CSS to the chat container
 st.markdown("""
     <style>
-        .streamlit-expanderHeader {
-            font-size: 16px;
-        }
         .stTextInput input {
             border: 2px dashed #0092d6;
             border-radius: 18px;
@@ -104,6 +103,7 @@ if question:
         history = "\n".join([f"{m['role'].capitalize()}: {m['content']}" for m in st.session_state.messages[:-1]])
         bot_response = generate_response(question, history)
         
-    st.session_state.messages.append({"role": "chatbot", "content": ""})  # Placeholder for typing effect
+    # Create a placeholder message for the bot
+    st.session_state.messages.append({"role": "chatbot", "content": ""})  # Empty message to simulate typing
     typing_effect(bot_response)  # Simulate typing effect
-    display_messages()
+
