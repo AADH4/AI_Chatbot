@@ -1,7 +1,7 @@
+import streamlit as st
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
-import time
 import markdown
 
 # Load environment variables
@@ -34,6 +34,7 @@ def generate_response(prompt, history):
 
 
 def display_messages():
+    """Display the conversation with proper formatting."""
     for msg in st.session_state.messages:
         if msg["role"] == "user":
             st.markdown(f"<div style='text-align: left; color: #0D6EFD;'>**You**: {markdown.markdown(msg['content'])}</div>", unsafe_allow_html=True)
@@ -41,9 +42,7 @@ def display_messages():
             st.markdown(f"<div style='text-align: left; color: #28a745;'>**Chatbot**: {markdown.markdown(msg['content'])}</div>", unsafe_allow_html=True)
 
 
-
 # Chat display
-chat_placeholder = st.empty()
 display_messages()
 
 # User input
@@ -52,8 +51,6 @@ question = st.text_input("Type your query:", key="input_field")
 # Clear conversation button
 if st.button("Clear Conversation"):
     st.session_state.messages = []
-    chat_placeholder.empty()
-
 
 if question:
     st.session_state.messages.append({"role": "user", "content": question})
@@ -64,9 +61,10 @@ if question:
         history = "\n".join([f"{m['role'].capitalize()}: {m['content']}" for m in st.session_state.messages[:-1]])
         bot_response = generate_response(question, history)
 
-
+    # Add the bot's response to the session state
     st.session_state.messages.append({"role": "chatbot", "content": bot_response})
-    chat_placeholder.empty()
+
+    # Refresh the chat interface
     display_messages()
 
 # CSS for custom message bubbles
